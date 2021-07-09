@@ -26,10 +26,18 @@ export function FirebaseAuthProvider({ firebase, children }: FirebaseProvider) {
         const auth_token = await hasUser.getIdToken();
         localStorage.setItem('auth_token', auth_token);
 
-        const response = await client.query({ query: GET_ME });
-        const user = response.data.user;
+        try {
+          const response = await client.query({ query: GET_ME });
+          const user = response.data.user;
 
-        userStore.setUser(user);
+          if (user) {
+            userStore.setUser(user);
+            console.log('logged');
+          }
+        } catch (error) {
+          await firebase.auth().signOut();
+          console.log('logged out!');
+        }
       } else {
         userStore.setUser(null);
         localStorage.removeItem('auth_token');

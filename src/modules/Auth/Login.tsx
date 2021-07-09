@@ -72,6 +72,7 @@ export function Login() {
         const serverResponse = await mutation({
           variables: { email, password },
         });
+
         if (serverResponse.data) {
           if (isLargeScreen) {
             await controls.start({ width: 0, zIndex: -1, transition: { duration: 0.8 } });
@@ -82,6 +83,11 @@ export function Login() {
           await sleep(200);
           userStore.setUser(serverResponse.data.user);
           loadingStore.setIsLoading(false);
+        }
+
+        if (serverResponse.errors) {
+          console.log('logging out from login');
+          await firebase.signOut();
         }
       }
     } catch (error) {
