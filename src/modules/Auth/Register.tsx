@@ -4,6 +4,7 @@ import {
   AlertIcon,
   Box,
   Button,
+  Fade,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -11,6 +12,7 @@ import {
   Input,
   Link as ChakraLink,
   Text,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -41,6 +43,7 @@ const schema = yup.object().shape({
 });
 
 export function Register() {
+  const [isLargeScreen] = useMediaQuery('(min-width: 48em)');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const firebase = useFirebaseAuth();
@@ -144,10 +147,18 @@ export function Register() {
       </motion.div>
       <Box
         flex="1"
+        justifyContent="center"
+        alignItems="center"
         background="gentem.yellow"
         height="100vh"
-        display={{ base: 'none', md: 'block' }}
-      ></Box>
+        display={{ base: 'none', md: 'flex' }}
+      >
+        {isLargeScreen && (
+          <Fade in={!isLoading}>
+            <img src="/logoDefault.png" />
+          </Fade>
+        )}
+      </Box>
     </Flex>
   );
 }
