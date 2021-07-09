@@ -1,9 +1,9 @@
 import React, { createContext, ReactNode, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import firebaseNs from 'firebase/app';
-import { GET_ME } from 'modules/User/queries';
 import { client } from 'api';
 import { useLoadingStore, useUserStore } from 'stores';
+import { GET_ME } from 'modules/Users';
 
 interface FirebaseContext {
   firebase: typeof firebaseNs;

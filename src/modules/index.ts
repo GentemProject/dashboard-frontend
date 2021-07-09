@@ -1,3 +1,4 @@
 export * from './Auth';
 export * from './NotFound';
-export * from './User';
+export * from './Home';
+export * from './Users';

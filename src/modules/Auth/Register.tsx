@@ -18,12 +18,14 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { motion, useAnimation } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 
 import { useFirebaseAuth } from 'hooks';
 
 import { REGISTER } from './queries';
+import { useLoadingStore, useUserStore } from 'stores';
+import { sleep } from 'utils';
 
 interface Form {
   name: string;
@@ -49,6 +51,9 @@ export function Register() {
   const firebase = useFirebaseAuth();
   const controls = useAnimation();
   const [mutation] = useMutation(REGISTER);
+  const userStore = useUserStore();
+  const loadingStore = useLoadingStore();
+  const history = useHistory();
 
   const {
     register,
@@ -73,11 +78,17 @@ export function Register() {
             password,
           },
         });
-
-        console.log(serverResponse);
-        // const token = await firebaseResponse.user.getIdToken();
-        // console.log({ token });
-        // controls.start({ width: 0, zIndex: -1, transition: { duration: 0.8 } });
+        if (serverResponse.data) {
+          if (isLargeScreen) {
+            await controls.start({ width: 0, zIndex: -1, transition: { duration: 0.8 } });
+          }
+          loadingStore.setIsLoading(true);
+          await sleep(500);
+          history.push('/');
+          await sleep(200);
+          userStore.setUser(serverResponse.data.user);
+          loadingStore.setIsLoading(false);
+        }
       }
     } catch (error) {
       setError(error.message);

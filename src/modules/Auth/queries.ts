@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { USER_FRAGMENT } from 'modules/User/queries';
+import { USER_FRAGMENT } from 'modules/Users';
 
 export const REGISTER = gql`
   ${USER_FRAGMENT}
