@@ -1,6 +1,11 @@
+import dotenv from 'dotenv';
+
+dotenv.config({ path: `/../../../.env` });
+
+console.log(process.env);
 export const env = {
-  API_URL: process.env.API_URL || 'http://localhost:3000',
-  FIREBASE_CONFIG: process.env.FIREBASE_CONFIG || {
+  API_URL: process.env.REACT_APP_API_URL || 'http://localhost:3000',
+  FIREBASE_CONFIG: {
     apiKey: 'AIzaSyAvoo8S3JssiO5yh_f-WCZmzVh3JRgYiys',
     authDomain: 'gentem-app.firebaseapp.com',
     databaseURL: 'https://gentem-app.firebaseio.com',

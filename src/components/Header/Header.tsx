@@ -11,7 +11,7 @@ import {
   Avatar,
   Input,
   InputGroup,
-  InputLeftElement,
+  InputRightElement,
 } from '@chakra-ui/react';
 import { useFirebaseAuth } from 'hooks';
 import { useHistory } from 'react-router-dom';
@@ -37,18 +37,29 @@ export function Header() {
   };
 
   return (
-    <Flex as="nav" align="center" justify="space-between" wrap="wrap" w="100%" mb={8} py="2">
+    <Flex
+      as="nav"
+      align="center"
+      justify="space-between"
+      wrap="wrap"
+      w="100%"
+      mb={8}
+      py="2"
+      background="#fff"
+      px="2em"
+    >
       <Box w="400px">
         <InputGroup>
-          <InputLeftElement pointerEvents="none">
+          <InputRightElement pointerEvents="none">
             <SearchIcon color="gray.300" />
-          </InputLeftElement>
+          </InputRightElement>
           <Input placeholder="Search" colorScheme="green" />
         </InputGroup>
       </Box>
       <Box display="block" flexBasis="auto">
         <Menu>
           <MenuButton
+            variant="outline"
             as={Button}
             leftIcon={
               <Avatar

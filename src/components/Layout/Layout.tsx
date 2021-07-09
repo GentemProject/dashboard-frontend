@@ -18,9 +18,9 @@ export function Layout({ children }: Props) {
           <Box width="250px" px="1em" py="2em" background="gentem.yellow">
             <SideBar />
           </Box>
-          <Box flex="1" background="#f5f7fb" px="2em">
+          <Box flex="1" background="#f5f7fb">
             <Header />
-            {children}
+            <Box px="2em">{children}</Box>
           </Box>
         </Flex>
       ) : (
