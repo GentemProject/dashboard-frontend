@@ -28,8 +28,8 @@ export function ListItem({ cause }: Props) {
       <Td>{cause.id}</Td>
       <Td>{cause.name}</Td>
       <Td>{cause.slug}</Td>
-      <Td>{format(new Date(cause.updatedAt), 'hh:mm:ss dd/mm/yyyy')}</Td>
-      <Td>{format(new Date(cause.createdAt), 'hh:mm:ss dd/mm/yyyy')}</Td>
+      <Td>{format(new Date(cause.updatedAt), 'hh:mm:ss dd/MM/yyyy')}</Td>
+      <Td>{format(new Date(cause.createdAt), 'hh:mm:ss dd/MM/yyyy')}</Td>
       <Td>
         <ModalUpdateCause isOpen={isOpen} onClose={onClose} cause={cause} />
         <IconButton

@@ -70,24 +70,27 @@ export function List() {
   }
 
   return (
-    <Box mb="4" borderRadius="md" overflow="hidden" background="white" boxShadow="lg">
-      <Table variant="simple" size="sm">
-        <Thead background="gray.100">
-          <Tr>
-            <Th>Unique ID</Th>
-            <Th>Name</Th>
-            <Th>Slug</Th>
-            <Th>Updated at</Th>
-            <Th>Created at</Th>
-            <Th>Actions</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {data.causes.map(cause => (
-            <ListItem key={cause.id} cause={cause} />
-          ))}
-        </Tbody>
-      </Table>
-    </Box>
+    <>
+      <Box mb="4" borderRadius="md" overflow="hidden" background="white" boxShadow="lg">
+        <Table variant="simple" size="sm">
+          <Thead background="gray.100">
+            <Tr>
+              <Th>Unique ID</Th>
+              <Th>Name</Th>
+              <Th>Slug</Th>
+              <Th>Updated at</Th>
+              <Th>Created at</Th>
+              <Th>Actions</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {data.causes.map(cause => (
+              <ListItem key={cause.id} cause={cause} />
+            ))}
+          </Tbody>
+        </Table>
+      </Box>
+      Total of Causes: {data.causes.length}
+    </>
   );
 }

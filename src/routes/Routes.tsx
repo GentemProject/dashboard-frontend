@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import { Layout } from 'components';
-import { NotFound, Login, Register, Home, UsersPage } from 'modules';
+import { Login, Register, Home, UsersPage } from 'modules';
 
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
@@ -22,7 +22,7 @@ export function Routes() {
           <PrivateRoute path="/home" component={<Home />} />
           <PrivateRoute path="/users" component={<UsersPage />} />
           <PrivateRoute path="/causes" component={<CausesPage />} />
-          <Route render={() => <NotFound />} />
+          <Route render={() => <Login />} />
         </Switch>
       </Layout>
     </BrowserRouter>

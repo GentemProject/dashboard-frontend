@@ -15,9 +15,9 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 
 import { CREATE_CAUSE } from '../graphql';
-import { client } from 'api';
 import { schemaResolver } from '../schema';
 import { Form } from '../types';
+import { refetch } from '../utils';
 
 interface Props {
   isOpen: boolean;
@@ -36,12 +36,14 @@ export function ModalCreateCause({ isOpen, onClose }: Props) {
   const [createCause, { loading }] = useMutation(CREATE_CAUSE);
 
   const onSubmit = async (data: Form) => {
-    await createCause({ variables: { input: data } });
-    onClose();
-    reset();
-    await client.refetchQueries({
-      include: ['getCauses'],
-    });
+    try {
+      await createCause({ variables: { input: data } });
+      onClose();
+      reset();
+      await refetch();
+    } catch {
+      console.log('Error on creating cause');
+    }
   };
 
   return (

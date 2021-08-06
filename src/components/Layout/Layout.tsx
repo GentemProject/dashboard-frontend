@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Header, Loading } from 'components';
+import { ErrorModal, Header, Loading } from 'components';
 import { useUserStore } from 'stores';
 import { Box } from '@chakra-ui/react';
 
@@ -11,7 +11,8 @@ export function Layout({ children }: Props) {
   const { user } = useUserStore();
 
   return (
-    <Box>
+    <Box mb="16">
+      <ErrorModal />
       <Loading />
       {user ? (
         <>

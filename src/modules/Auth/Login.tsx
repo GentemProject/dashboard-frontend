@@ -24,7 +24,7 @@ import { useMutation } from '@apollo/client';
 import { useFirebaseAuth } from 'hooks';
 import { LOGIN } from './queries';
 import { UserType } from 'modules';
-import { useLoadingStore, useUserStore } from 'stores';
+import { useErrorStore, useLoadingStore, useUserStore } from 'stores';
 import { useEffect } from 'react';
 import { sleep } from 'utils';
 import { Logo } from 'components';
@@ -45,6 +45,7 @@ const schema = yup.object().shape({
 });
 
 export function Login() {
+  const { setErrorModal } = useErrorStore();
   const [isLargeScreen] = useMediaQuery('(min-width: 48em)');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -92,6 +93,10 @@ export function Login() {
         }
       }
     } catch (error) {
+      setErrorModal({
+        title: 'Error',
+        message: error.message,
+      });
       setError(error.message);
     }
     setIsLoading(false);

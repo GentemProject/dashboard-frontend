@@ -14,10 +14,10 @@ import {
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
-import { client } from 'api';
 import { UPDATE_CAUSE } from '../graphql';
 import { Cause, Form } from '../types';
 import { schemaResolver } from '../schema';
+import { refetch } from '../utils';
 
 interface Props {
   cause: Cause;
@@ -40,9 +40,7 @@ export function ModalUpdateCause({ isOpen, onClose, cause }: Props) {
     await updateCause({ variables: { id: cause.id, input: data } });
     onClose();
     reset();
-    await client.refetchQueries({
-      include: ['getCauses'],
-    });
+    await refetch();
   };
 
   useEffect(() => {
