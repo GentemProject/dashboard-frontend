@@ -6,7 +6,6 @@ import {
   Tbody,
   Tr,
   Th,
-  Td,
   Box,
   Input,
   Text,
@@ -15,15 +14,17 @@ import {
   InputGroup,
   InputLeftElement,
   Skeleton,
-  IconButton,
+  Button,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useQuery } from '@apollo/client';
-import { EditIcon, SearchIcon, DeleteIcon } from '@chakra-ui/icons';
+import { SearchIcon } from '@chakra-ui/icons';
 import { useDebounce } from '@react-hook/debounce';
-import { format } from 'date-fns';
 
 import { GET_CAUSES } from './queries';
 import { Cause } from './types';
+import { CauseItem } from './CauseItem';
+import { CreateCauseModal } from './CreateCauseModal';
 
 interface Data {
   causes: Cause[];
@@ -33,6 +34,8 @@ export function CausesPage() {
   const [query, setQuery] = useDebounce<string | undefined>(undefined, 500);
   const [sortBy, setSortBy] = useState<string>('asc');
   const [orderBy, setOrderBy] = useState<string>('name');
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { data, loading } = useQuery<Data>(GET_CAUSES, {
     variables: {
@@ -44,9 +47,13 @@ export function CausesPage() {
 
   return (
     <Box>
-      <Heading as="h2" size="2xl" color="blackAlpha.600">
-        Causes
-      </Heading>
+      <CreateCauseModal isOpen={isOpen} onClose={onClose} />
+      <Flex justifyContent="space-between" alignItems="flex-end">
+        <Heading as="h2" size="2xl" color="blackAlpha.600">
+          Causes
+        </Heading>
+        <Button onClick={onOpen}>Create cause</Button>
+      </Flex>
       <Text color="gray.500" mb="4">
         Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
         industries for previewing layouts and visual mockups.
@@ -120,31 +127,7 @@ export function CausesPage() {
                   </Th>
                 </Tr>
               ))}
-            {data &&
-              data.causes.map(cause => (
-                <Tr key={cause.id}>
-                  <Td>{cause.id}</Td>
-                  <Td>{cause.name}</Td>
-                  <Td>{cause.slug}</Td>
-                  <Td>{format(new Date(cause.updatedAt), 'hh:mm:ss dd/mm/yyyy')}</Td>
-                  <Td>{format(new Date(cause.createdAt), 'hh:mm:ss dd/mm/yyyy')}</Td>
-                  <Td>
-                    <IconButton
-                      size="xs"
-                      variant="outline"
-                      aria-label="Edit"
-                      icon={<EditIcon />}
-                      mr="2"
-                    />
-                    <IconButton
-                      size="xs"
-                      variant="outline"
-                      aria-label="Delete"
-                      icon={<DeleteIcon />}
-                    />
-                  </Td>
-                </Tr>
-              ))}
+            {data && data.causes.map(cause => <CauseItem key={cause.id} cause={cause} />)}
           </Tbody>
         </Table>
       </Box>

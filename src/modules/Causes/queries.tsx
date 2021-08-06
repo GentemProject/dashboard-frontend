@@ -11,3 +11,17 @@ export const GET_CAUSES = gql`
     }
   }
 `;
+
+export const DELETE_CAUSE = gql`
+  mutation deleteCause($id: String!) {
+    isDeleted: deleteCause(id: $id)
+  }
+`;
+
+export const CREATE_CAUSE = gql`
+  mutation createCause($input: CauseInput) {
+    cause: createCause(input: $input) {
+      id
+    }
+  }
+`;
