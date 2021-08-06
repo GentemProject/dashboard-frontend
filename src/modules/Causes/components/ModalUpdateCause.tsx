@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   Button,
   FormControl,
@@ -12,39 +13,31 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { useMutation } from '@apollo/client';
-import { CREATE_CAUSE } from './queries';
 import { client } from 'api';
-
-interface Form {
-  name: string;
-}
-
-const schema = yup.object().shape({
-  name: yup.string().required().trim(),
-});
+import { UPDATE_CAUSE } from '../graphql';
+import { Cause, Form } from '../types';
+import { schemaResolver } from '../schema';
 
 interface Props {
+  cause: Cause;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function CreateCauseModal({ isOpen, onClose }: Props) {
+export function ModalUpdateCause({ isOpen, onClose, cause }: Props) {
+  const form = useForm<Form>({ resolver: schemaResolver });
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Form>({
-    resolver: yupResolver(schema),
-  });
+  } = form;
 
-  const [createCause, { loading }] = useMutation(CREATE_CAUSE);
+  const [updateCause, { loading }] = useMutation(UPDATE_CAUSE);
 
   const onSubmit = async (data: Form) => {
-    await createCause({ variables: { input: data } });
+    await updateCause({ variables: { id: cause.id, input: data } });
     onClose();
     reset();
     await client.refetchQueries({
@@ -52,12 +45,18 @@ export function CreateCauseModal({ isOpen, onClose }: Props) {
     });
   };
 
+  useEffect(() => {
+    reset({
+      name: cause.name,
+    });
+  }, [cause, reset]);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>Create Cause</ModalHeader>
+          <ModalHeader>Update Cause</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl mb="4" id="email" isInvalid={Boolean(errors.name)}>
@@ -67,7 +66,7 @@ export function CreateCauseModal({ isOpen, onClose }: Props) {
           </ModalBody>
           <ModalFooter>
             <Button variant="solid" background="gentem.yellow" isLoading={loading} type="submit">
-              Create
+              Update
             </Button>
           </ModalFooter>
         </form>

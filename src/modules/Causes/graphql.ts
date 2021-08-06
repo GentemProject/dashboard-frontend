@@ -1,13 +1,20 @@
 import { gql } from '@apollo/client';
 
+export const CAUSE_FRAGMENT = gql`
+  fragment CauseFragment on Cause {
+    id
+    name
+    slug
+    updatedAt
+    createdAt
+  }
+`;
+
 export const GET_CAUSES = gql`
+  ${CAUSE_FRAGMENT}
   query getCauses($query: String, $sortBy: String, $orderBy: String) {
     causes(query: $query, sortBy: $sortBy, orderBy: $orderBy) {
-      id
-      name
-      slug
-      createdAt
-      updatedAt
+      ...CauseFragment
     }
   }
 `;
@@ -21,7 +28,7 @@ export const DELETE_CAUSE = gql`
 export const CREATE_CAUSE = gql`
   mutation createCause($input: CauseInput) {
     cause: createCause(input: $input) {
-      id
+      ...CauseFragment
     }
   }
 `;
@@ -29,7 +36,7 @@ export const CREATE_CAUSE = gql`
 export const UPDATE_CAUSE = gql`
   mutation updateCause($id: String!, $input: CauseInput) {
     cause: updateCause(id: $id, input: $input) {
-      id
+      ...CauseFragment
     }
   }
 `;

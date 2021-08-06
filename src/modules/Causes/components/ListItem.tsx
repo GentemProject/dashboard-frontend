@@ -4,17 +4,24 @@ import { IconButton, Td, Tr, useDisclosure } from '@chakra-ui/react';
 import { client } from 'api';
 import { format } from 'date-fns';
 
-import { DELETE_CAUSE } from './queries';
-import { Cause } from './types';
-import { UpdateCauseModal } from './UpdateCauseModal';
+import { DELETE_CAUSE } from '../graphql';
+import { Cause } from '../types';
+import { ModalUpdateCause } from './ModalUpdateCause';
 
 interface Props {
   cause: Cause;
 }
-export function CauseItem({ cause }: Props) {
+export function ListItem({ cause }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [deleteCause, { loading }] = useMutation(DELETE_CAUSE);
+
+  const handleDelete = async () => {
+    await deleteCause({ variables: { id: cause.id } });
+    await client.refetchQueries({
+      include: ['getCauses'],
+    });
+  };
 
   return (
     <Tr key={cause.id}>
@@ -24,7 +31,7 @@ export function CauseItem({ cause }: Props) {
       <Td>{format(new Date(cause.updatedAt), 'hh:mm:ss dd/mm/yyyy')}</Td>
       <Td>{format(new Date(cause.createdAt), 'hh:mm:ss dd/mm/yyyy')}</Td>
       <Td>
-        <UpdateCauseModal isOpen={isOpen} onClose={onClose} cause={cause} />
+        <ModalUpdateCause isOpen={isOpen} onClose={onClose} cause={cause} />
         <IconButton
           size="xs"
           variant="outline"
@@ -39,12 +46,7 @@ export function CauseItem({ cause }: Props) {
           aria-label="Delete"
           icon={<DeleteIcon />}
           isLoading={loading}
-          onClick={async () => {
-            await deleteCause({ variables: { id: cause.id } });
-            await client.refetchQueries({
-              include: ['getCauses'],
-            });
-          }}
+          onClick={handleDelete}
         />
       </Td>
     </Tr>

@@ -45,8 +45,10 @@ export function Header() {
       w="100%"
       mb={8}
       py="2"
-      // background="#fff"
-      px="2em"
+      background="#fff"
+      borderBottom="1px"
+      borderColor="#eee"
+      px="5em"
     >
       <Box w="400px">
         <InputGroup>

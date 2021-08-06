@@ -17,17 +17,16 @@ export function Layout({ children }: Props) {
         <Flex>
           <Box
             width="250px"
-            m="1em"
-            borderRadius="base"
+            // m="1em"
             px="1em"
             py="2em"
             background="gentem.yellow"
           >
             <SideBar />
           </Box>
-          <Box flex="1">
+          <Box flex="1" background="#fafcff">
             <Header />
-            <Box px="2em">{children}</Box>
+            <Box px="5em">{children}</Box>
           </Box>
         </Flex>
       ) : (
