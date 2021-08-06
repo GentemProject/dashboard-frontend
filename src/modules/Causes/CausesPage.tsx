@@ -15,13 +15,13 @@ export function CausesPage() {
         <Heading as="h2" size="2xl" color="blackAlpha.600">
           Causes
         </Heading>
-        <Button leftIcon={<AddIcon />} onClick={onOpen}>
+        <Button leftIcon={<AddIcon />} onClick={onOpen} background="gentem.yellow" color="white">
           Create cause
         </Button>
       </Flex>
-      <Text color="gray.500" mb="4">
-        Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
-        industries for previewing layouts and visual mockups.
+      <Text color="gray.500" mb="4" fontSize="sm">
+        The place where all causes are. (Lorem ipsum is placeholder text commonly used in the
+        graphic, print, and publishing industries for previewing layouts and visual mockups)
       </Text>
       <ListFilters />
       <List />

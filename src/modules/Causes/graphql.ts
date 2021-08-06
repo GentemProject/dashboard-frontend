@@ -26,6 +26,7 @@ export const DELETE_CAUSE = gql`
 `;
 
 export const CREATE_CAUSE = gql`
+  ${CAUSE_FRAGMENT}
   mutation createCause($input: CauseInput) {
     cause: createCause(input: $input) {
       ...CauseFragment
@@ -34,6 +35,7 @@ export const CREATE_CAUSE = gql`
 `;
 
 export const UPDATE_CAUSE = gql`
+  ${CAUSE_FRAGMENT}
   mutation updateCause($id: String!, $input: CauseInput) {
     cause: updateCause(id: $id, input: $input) {
       ...CauseFragment

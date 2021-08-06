@@ -65,7 +65,13 @@ export function ModalUpdateCause({ isOpen, onClose, cause }: Props) {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button variant="solid" background="gentem.yellow" isLoading={loading} type="submit">
+            <Button
+              variant="solid"
+              background="gentem.yellow"
+              color="white"
+              isLoading={loading}
+              type="submit"
+            >
               Update
             </Button>
           </ModalFooter>

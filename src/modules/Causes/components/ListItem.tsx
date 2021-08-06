@@ -24,7 +24,7 @@ export function ListItem({ cause }: Props) {
   };
 
   return (
-    <Tr key={cause.id}>
+    <Tr key={cause.id} fontSize="13px" fontWeight="200">
       <Td>{cause.id}</Td>
       <Td>{cause.name}</Td>
       <Td>{cause.slug}</Td>
