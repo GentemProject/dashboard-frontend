@@ -44,7 +44,7 @@ export function SideBar() {
           </Box>
         </Link>
 
-        <Link to="/">
+        <Link to="/users">
           <Box
             color="white"
             fontWeight="600"

@@ -27,6 +27,7 @@ import { UserType } from 'modules';
 import { useLoadingStore, useUserStore } from 'stores';
 import { useEffect } from 'react';
 import { sleep } from 'utils';
+import { Logo } from 'components'
 // import { sleep } from 'utils';
 
 interface Form {
@@ -164,7 +165,7 @@ export function Login() {
       >
         {isLargeScreen && (
           <Fade in={!isLoading}>
-            <img src="/logoDefault.png" />
+            <Logo />
           </Fade>
         )}
       </Box>
