@@ -12,34 +12,26 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { useMutation } from '@apollo/client';
-import { CREATE_CAUSE } from './queries';
+
+import { CREATE_CAUSE } from '../graphql';
 import { client } from 'api';
-
-interface Form {
-  name: string;
-}
-
-const schema = yup.object().shape({
-  name: yup.string().required().trim(),
-});
+import { schemaResolver } from '../schema';
+import { Form } from '../types';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function CreateCauseModal({ isOpen, onClose }: Props) {
+export function ModalCreateCause({ isOpen, onClose }: Props) {
+  const form = useForm<Form>({ resolver: schemaResolver });
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Form>({
-    resolver: yupResolver(schema),
-  });
+  } = form;
 
   const [createCause, { loading }] = useMutation(CREATE_CAUSE);
 
@@ -66,7 +58,13 @@ export function CreateCauseModal({ isOpen, onClose }: Props) {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button variant="solid" background="gentem.yellow" isLoading={loading} type="submit">
+            <Button
+              variant="solid"
+              background="gentem.yellow"
+              color="white"
+              isLoading={loading}
+              type="submit"
+            >
               Create
             </Button>
           </ModalFooter>

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   Button,
   FormControl,
@@ -12,21 +13,11 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { useMutation } from '@apollo/client';
-import { UPDATE_CAUSE } from './queries';
 import { client } from 'api';
-import { Cause } from './types';
-import { useEffect } from 'react';
-
-interface Form {
-  name: string;
-}
-
-const schema = yup.object().shape({
-  name: yup.string().required().trim(),
-});
+import { UPDATE_CAUSE } from '../graphql';
+import { Cause, Form } from '../types';
+import { schemaResolver } from '../schema';
 
 interface Props {
   cause: Cause;
@@ -34,15 +25,14 @@ interface Props {
   onClose: () => void;
 }
 
-export function UpdateCauseModal({ isOpen, onClose, cause }: Props) {
+export function ModalUpdateCause({ isOpen, onClose, cause }: Props) {
+  const form = useForm<Form>({ resolver: schemaResolver });
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Form>({
-    resolver: yupResolver(schema),
-  });
+  } = form;
 
   const [updateCause, { loading }] = useMutation(UPDATE_CAUSE);
 
@@ -75,7 +65,13 @@ export function UpdateCauseModal({ isOpen, onClose, cause }: Props) {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button variant="solid" background="gentem.yellow" isLoading={loading} type="submit">
+            <Button
+              variant="solid"
+              background="gentem.yellow"
+              color="white"
+              isLoading={loading}
+              type="submit"
+            >
               Update
             </Button>
           </ModalFooter>

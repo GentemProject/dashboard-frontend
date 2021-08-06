@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Header, Loading, SideBar } from 'components';
+import { Header, Loading } from 'components';
 import { useUserStore } from 'stores';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 interface Props {
   children: React.ReactNode;
@@ -11,28 +11,16 @@ export function Layout({ children }: Props) {
   const { user } = useUserStore();
 
   return (
-    <>
+    <Box>
       <Loading />
       {user ? (
-        <Flex>
-          <Box
-            width="250px"
-            m="1em"
-            borderRadius="base"
-            px="1em"
-            py="2em"
-            background="gentem.yellow"
-          >
-            <SideBar />
-          </Box>
-          <Box flex="1">
-            <Header />
-            <Box px="2em">{children}</Box>
-          </Box>
-        </Flex>
+        <>
+          <Header />
+          <Box px="5em">{children}</Box>
+        </>
       ) : (
         children
       )}
-    </>
+    </Box>
   );
 }
