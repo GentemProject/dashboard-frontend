@@ -1,8 +1,7 @@
 import dotenv from 'dotenv';
 
-dotenv.config({ path: `/../../../.env` });
+dotenv.config();
 
-console.log(process.env);
 export const env = {
   API_URL: process.env.REACT_APP_API_URL || 'http://localhost:3000',
   FIREBASE_CONFIG: {

@@ -15,10 +15,17 @@ export function Layout({ children }: Props) {
       <Loading />
       {user ? (
         <Flex>
-          <Box width="250px" px="1em" py="2em" background="gentem.yellow">
+          <Box
+            width="250px"
+            m="1em"
+            borderRadius="base"
+            px="1em"
+            py="2em"
+            background="gentem.yellow"
+          >
             <SideBar />
           </Box>
-          <Box flex="1" background="#f5f7fb">
+          <Box flex="1">
             <Header />
             <Box px="2em">{children}</Box>
           </Box>

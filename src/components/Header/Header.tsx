@@ -45,7 +45,7 @@ export function Header() {
       w="100%"
       mb={8}
       py="2"
-      background="#fff"
+      // background="#fff"
       px="2em"
     >
       <Box w="400px">
