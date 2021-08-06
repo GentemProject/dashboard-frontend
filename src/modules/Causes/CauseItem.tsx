@@ -1,16 +1,19 @@
 import { useMutation } from '@apollo/client';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { IconButton, Td, Tr } from '@chakra-ui/react';
+import { IconButton, Td, Tr, useDisclosure } from '@chakra-ui/react';
 import { client } from 'api';
 import { format } from 'date-fns';
 
 import { DELETE_CAUSE } from './queries';
 import { Cause } from './types';
+import { UpdateCauseModal } from './UpdateCauseModal';
 
 interface Props {
   cause: Cause;
 }
 export function CauseItem({ cause }: Props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [deleteCause, { loading }] = useMutation(DELETE_CAUSE);
 
   return (
@@ -21,7 +24,15 @@ export function CauseItem({ cause }: Props) {
       <Td>{format(new Date(cause.updatedAt), 'hh:mm:ss dd/mm/yyyy')}</Td>
       <Td>{format(new Date(cause.createdAt), 'hh:mm:ss dd/mm/yyyy')}</Td>
       <Td>
-        <IconButton size="xs" variant="outline" aria-label="Edit" icon={<EditIcon />} mr="2" />
+        <UpdateCauseModal isOpen={isOpen} onClose={onClose} cause={cause} />
+        <IconButton
+          size="xs"
+          variant="outline"
+          aria-label="Edit"
+          icon={<EditIcon />}
+          mr="2"
+          onClick={onOpen}
+        />
         <IconButton
           size="xs"
           variant="outline"

@@ -25,3 +25,11 @@ export const CREATE_CAUSE = gql`
     }
   }
 `;
+
+export const UPDATE_CAUSE = gql`
+  mutation updateCause($id: String!, $input: CauseInput) {
+    cause: updateCause(id: $id, input: $input) {
+      id
+    }
+  }
+`;

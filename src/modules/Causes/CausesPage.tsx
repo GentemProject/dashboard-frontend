@@ -105,7 +105,7 @@ export function CausesPage() {
           </Thead>
           <Tbody>
             {loading &&
-              Array.from(Array(10).keys()).map(item => (
+              Array.from(Array(20).keys()).map(item => (
                 <Tr key={item}>
                   <Th>
                     <Skeleton h="20px" />
