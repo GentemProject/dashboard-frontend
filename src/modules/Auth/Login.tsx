@@ -23,7 +23,7 @@ import { useMutation } from '@apollo/client';
 
 import { useFirebaseAuth } from 'hooks';
 import { LOGIN } from './queries';
-import { UserType } from 'modules';
+import { User } from 'modules';
 import { useErrorStore, useLoadingStore, useUserStore } from 'stores';
 import { useEffect } from 'react';
 import { sleep } from 'utils';
@@ -36,7 +36,7 @@ interface Form {
 }
 
 interface Response {
-  user: UserType;
+  user: User;
 }
 
 const schema = yup.object().shape({

@@ -54,8 +54,7 @@ export function CausesPage() {
         </div>
       </Flex>
       <Text color="gray.500" mb="4" fontSize="sm">
-        The place where all causes are. (Lorem ipsum is placeholder text commonly used in the
-        graphic, print, and publishing industries for previewing layouts and visual mockups)
+        The place where all causes are.
       </Text>
       <ListFilters />
       <List />

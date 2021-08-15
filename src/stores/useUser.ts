@@ -1,14 +1,14 @@
 import create from 'zustand';
-import { UserType } from '../modules';
+import { User } from '../modules';
 
 type Store = {
-  user: UserType | null;
-  setUser: (user: UserType | null) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
   removeUser: () => void;
 };
 
 export const useUserStore = create<Store>(set => ({
   user: null,
-  setUser: (user: UserType | null) => set({ user }),
+  setUser: (user: User | null) => set({ user }),
   removeUser: () => set({ user: null }),
 }));
