@@ -1,18 +1,21 @@
 import React from 'react';
 import { Heading, Box, Text, Flex, Button, Icon } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import { Link } from 'react-router-dom';
 
 import { List, ListFilters } from './components';
 
-export function UsersPage() {
+export function OrganizationsPage() {
   return (
     <Box px="5em" mt={8}>
       <Flex justifyContent="space-between" alignItems="flex-end">
         <Heading as="h2" size="2xl" color="blackAlpha.600">
-          Users
+          Organizations
         </Heading>
         <div>
           <Button
+            // isLoading={isRefreshing}
+            // onClick={handleRefresh}
             leftIcon={
               <Icon viewBox="0 0 200 200">
                 <svg
@@ -34,13 +37,20 @@ export function UsersPage() {
           >
             Refresh
           </Button>
-          <Button leftIcon={<AddIcon />} background="gentem.yellow" color="white">
-            Create user
+          <Button
+            as={Link}
+            to="/organizations/new"
+            leftIcon={<AddIcon />}
+            // onClick={onOpen}
+            background="gentem.yellow"
+            color="white"
+          >
+            Create organization
           </Button>
         </div>
       </Flex>
       <Text color="gray.500" mb="4" fontSize="sm">
-        The place where all users are.
+        The place where all organizations are.
       </Text>
       <ListFilters />
       <List />

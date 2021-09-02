@@ -17,7 +17,7 @@ export function CausesPage() {
   };
 
   return (
-    <Box>
+    <Box px="5em" mt={8}>
       <ModalCreateCause isOpen={isOpen} onClose={onClose} />
       <Flex justifyContent="space-between" alignItems="flex-end">
         <Heading as="h2" size="2xl" color="blackAlpha.600">

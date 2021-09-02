@@ -54,7 +54,6 @@ export function Header() {
       justify="space-between"
       wrap="wrap"
       w="100%"
-      mb={8}
       py="2"
       background="#fff"
       borderBottom="1px"

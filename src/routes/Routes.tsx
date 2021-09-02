@@ -2,12 +2,21 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import { Layout } from 'components';
-import { Login, Register, Home, UsersPage } from 'modules';
+import {
+  Login,
+  Register,
+  Home,
+  UsersPage,
+  CausesPage,
+  OrganizationsPage,
+  CreateOrganizationsPage,
+  NotFound,
+  OrganizationPage,
+} from 'modules';
+import { useUserStore } from 'stores';
 
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
-import { useUserStore } from 'stores';
-import { CausesPage } from 'modules/Causes/CausesPage';
 
 export function Routes() {
   const { user } = useUserStore();
@@ -22,7 +31,10 @@ export function Routes() {
           <PrivateRoute path="/home" component={<Home />} />
           <PrivateRoute path="/users" component={<UsersPage />} />
           <PrivateRoute path="/causes" component={<CausesPage />} />
-          <Route render={() => <Login />} />
+          <PrivateRoute path="/organizations/new" component={<CreateOrganizationsPage />} />
+          <PrivateRoute path="/organizations/:slug" component={<OrganizationPage />} />
+          <PrivateRoute path="/organizations" component={<OrganizationsPage />} />
+          <Route render={() => <NotFound />} />
         </Switch>
       </Layout>
     </BrowserRouter>

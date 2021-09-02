@@ -17,7 +17,7 @@ export function Layout({ children }: Props) {
       {user ? (
         <>
           <Header />
-          <Box px="5em">{children}</Box>
+          <Box>{children}</Box>
         </>
       ) : (
         children
