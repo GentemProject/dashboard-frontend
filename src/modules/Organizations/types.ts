@@ -2,9 +2,10 @@ import { Cause } from 'modules/Causes/types';
 
 export interface Organization {
   id: string;
-  ownerId?: string;
+  ownersId: string[];
   causesId: string[];
   causes: Cause[];
+  isPublished: boolean;
   slug: string;
   logo: string;
   name: string;
@@ -16,27 +17,33 @@ export interface Organization {
   website?: string;
   adminFullName?: string;
   adminEmail?: string;
-  addresses?: string[];
-  cities?: string[];
-  states?: string[];
-  countries?: string[];
-  coordenateX?: number[];
-  coordenateY?: number[];
-  facebookUrl?: string;
-  instagramUrl?: string;
-  twitterUrl?: string;
-  whatsappUrl?: string;
-  donationLinks?: string[];
-  donationsProducts?: string;
-  donationBankAccountName?: string;
-  donationBankAccountType?: string;
-  donationBankAccountNumber?: string;
-  hasDonationLinks?: boolean;
-  hasDonationBank?: boolean;
-  hasDonationProducts?: boolean;
+  locations: {
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    countryCode: string;
+    coordenateX: number;
+    coordenateY: number;
+  }[];
+  socialMedia: {
+    key: string;
+    name: string;
+    url: string;
+  }[];
+  donations: {
+    key: string;
+    title: string;
+    description: string;
+  }[];
+  sponsors: {
+    name: string;
+    imrg: string;
+    link: string;
+  }[];
   createdAt: string;
   updatedAt: string;
 }
 
 export type SortBy = 'asc' | 'desc';
-export type OrderBy = 'id' | 'name' | 'slug' | 'cities' | 'countries' | 'updatedAt' | 'createdAt';
+export type OrderBy = 'id' | 'name' | 'slug' | 'countries' | 'updatedAt' | 'createdAt';

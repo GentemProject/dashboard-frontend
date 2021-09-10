@@ -97,21 +97,27 @@ export function List() {
 
   if (data.organizations.rows.length === 0) {
     return (
-      <Box mb="4" borderRadius="md" overflow="hidden" background="white" boxShadow="lg">
-        <Table variant="simple" size="sm">
-          <Thead background="gray.100">
-            <ListHeading />
-          </Thead>
-        </Table>
-        <Box display="flex" alignItems="center" justifyContent="center" height="200px">
-          <Heading fontSize="lg">No results</Heading>
+      <>
+        Pagina 0/0 Total of Organizations: 0
+        <ListPagination disabled totalResults={data.organizations.count} />
+        <Box mb="4" borderRadius="md" overflow="hidden" background="white" boxShadow="lg">
+          <Table variant="simple" size="sm">
+            <Thead background="gray.100">
+              <ListHeading />
+            </Thead>
+          </Table>
+          <Box display="flex" alignItems="center" justifyContent="center" height="200px">
+            <Heading fontSize="lg">No results</Heading>
+          </Box>
         </Box>
-      </Box>
+      </>
     );
   }
 
   return (
     <>
+      Pagina {page}/{Math.ceil(data.organizations.count / limit)}Total of Organizations:{' '}
+      {data.organizations.count}
       <ListPagination totalResults={data.organizations.count} />
       <Box mb="4" borderRadius="md" overflow="hidden" background="white" boxShadow="lg">
         <Table variant="simple" size="sm">

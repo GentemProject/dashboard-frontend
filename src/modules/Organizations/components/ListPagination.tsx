@@ -5,9 +5,10 @@ import { useFiltersStore } from '../store';
 
 interface Props {
   totalResults: number;
+  disabled?: boolean;
 }
 
-export function ListPagination({ totalResults }: Props) {
+export function ListPagination({ totalResults, disabled }: Props) {
   const { page, setPage, limit } = useFiltersStore();
 
   const isMinPage = page === 1;
@@ -18,10 +19,18 @@ export function ListPagination({ totalResults }: Props) {
 
   return (
     <Box display="flex" justifyContent="space-between" mb="4">
-      <Button leftIcon={<ArrowBackIcon />} disabled={isMinPage} onClick={handlePrevPage}>
+      <Button
+        leftIcon={<ArrowBackIcon />}
+        disabled={isMinPage || disabled}
+        onClick={handlePrevPage}
+      >
         Prev
       </Button>
-      <Button rightIcon={<ArrowForwardIcon />} disabled={isMaxPage} onClick={handleNextPage}>
+      <Button
+        rightIcon={<ArrowForwardIcon />}
+        disabled={isMaxPage || disabled}
+        onClick={handleNextPage}
+      >
         Next
       </Button>
     </Box>

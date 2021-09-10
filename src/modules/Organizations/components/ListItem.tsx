@@ -66,13 +66,14 @@ export function ListItem({ organization }: Props) {
         </Popover>
         <Link to={`/organizations/${organization.slug}`}>{organization.name}</Link>
       </Td>
-      <Td>{organization.cities && organization.cities[0]}</Td>
+      <Td>{organization.locations.length > 0 && organization.locations[0].city}</Td>
       <Td>
-        {organization.countries?.map(country => (
-          <Tag size="sm" key={country} mr="2">
-            {country}
-          </Tag>
-        ))}
+        {organization.locations.length > 0 &&
+          organization.locations.map(location => (
+            <Tag size="sm" key={location.countryCode} mr="2">
+              {location.country}
+            </Tag>
+          ))}
       </Td>
       <Td>
         {organization.causes.map(cause => (

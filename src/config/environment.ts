@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const env = {
+  GOOGLE_API_KEY: process.env.REACT_APP_GOOGLE_API_KEY || 'AIzaSyARXcK7e-Q5-0Z9ASUfUB5Ui1kXtVUlUd8',
   API_URL: process.env.REACT_APP_API_URL || 'http://localhost:3000',
   FIREBASE_CONFIG: {
     apiKey: 'AIzaSyAvoo8S3JssiO5yh_f-WCZmzVh3JRgYiys',

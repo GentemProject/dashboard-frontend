@@ -5,14 +5,15 @@ export const ORGANIZATION_FRAGMENT = gql`
   ${CAUSE_FRAGMENT}
   fragment OrganizationFragment on Organization {
     id
-    ownerId
+    ownersId
     causesId
     causes {
       ...CauseFragment
     }
+    isPublished
+    name
     slug
     logo
-    name
     goal
     description
     useDonationsFor
@@ -21,24 +22,30 @@ export const ORGANIZATION_FRAGMENT = gql`
     website
     adminFullName
     adminEmail
-    addresses
-    cities
-    states
-    countries
-    coordenateX
-    coordenateY
-    facebookUrl
-    instagramUrl
-    twitterUrl
-    whatsappUrl
-    donationLinks
-    donationsProducts
-    donationBankAccountName
-    donationBankAccountType
-    donationBankAccountNumber
-    hasDonationLinks
-    hasDonationBank
-    hasDonationProducts
+    locations {
+      address
+      city
+      state
+      country
+      countryCode
+      coordenateX
+      coordenateY
+    }
+    socialMedia {
+      key
+      name
+      url
+    }
+    donations {
+      key
+      title
+      description
+    }
+    sponsors {
+      name
+      img
+      link
+    }
     createdAt
     updatedAt
   }
@@ -83,6 +90,28 @@ export const GET_ORGANIZATION = gql`
   query getOrganization($id: String, $slug: String) {
     organization(id: $id, slug: $slug) {
       ...OrganizationFragment
+    }
+  }
+`;
+
+export const UPDATE_ORGANIZATION = gql`
+  ${ORGANIZATION_FRAGMENT}
+  mutation updateOrganization($id: String!, $input: OrganizationInput) {
+    cause: updateOrganization(id: $id, input: $input) {
+      ...OrganizationFragment
+    }
+  }
+`;
+
+export const GET_ORGANIZATIONS_FILTERS_DATA = gql`
+  ${CAUSE_FRAGMENT}
+  query getOrganizationsFilterData($sortBy: String, $orderBy: String) {
+    causes(sortBy: $sortBy, orderBy: $orderBy) {
+      ...CauseFragment
+    }
+    countries {
+      name
+      code
     }
   }
 `;

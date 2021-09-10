@@ -7,12 +7,16 @@ import { MultiSelect } from 'react-multi-select-component';
 import { useFiltersStore } from '../store';
 import { OrderBy, SortBy } from '../types';
 
-import { GET_CAUSES } from 'modules/Causes/graphql';
 import { Cause } from 'modules/Causes/types';
 import { useQuery } from '@apollo/client';
+import { GET_ORGANIZATIONS_FILTERS_DATA } from '../graphql';
 
 interface Data {
   causes: Cause[];
+  countries: {
+    name: string;
+    code: string;
+  }[];
 }
 interface Option {
   value: string;
@@ -41,7 +45,7 @@ export function ListFilters() {
   } = useFiltersStore();
   const setQueryDebounced = useDebounceCallback(setQuery, 500);
 
-  const { data, loading } = useQuery<Data>(GET_CAUSES, {
+  const { data, loading } = useQuery<Data>(GET_ORGANIZATIONS_FILTERS_DATA, {
     variables: { sortBy: 'asc', orderBy: 'name' },
   });
   const causes = data?.causes.map(cause => ({ value: cause.id, label: cause.name })) || [];
@@ -52,45 +56,8 @@ export function ListFilters() {
     setCausesId(causesId);
   };
 
-  const countries = [
-    {
-      value: 'Ecuador',
-      label: 'Ecuador',
-    },
-    {
-      value: 'Venezuela',
-      label: 'Venezuela',
-    },
-    {
-      value: 'Perú',
-      label: 'Perú',
-    },
-    {
-      value: 'Chile',
-      label: 'Chile',
-    },
-    {
-      value: 'Colombia',
-      label: 'Colombia',
-    },
-    {
-      value: 'Panamá',
-      label: 'Panamá',
-    },
-    {
-      value: 'Argentina',
-      label: 'Argentina',
-    },
-    {
-      value: 'República Dominicana',
-      label: 'República Dominicana',
-    },
-    {
-      value: 'Estados Unidos',
-      label: 'Estados Unidos',
-    },
-    { value: 'México', label: 'México' },
-  ];
+  const countries =
+    data?.countries.map(country => ({ value: country.code, label: country.name })) || [];
   const [countriesSelected, setCountriesSelected] = useState<Option[]>([]);
   const handleCountriesSelect = (countries: Option[]) => {
     setCountriesSelected(countries);
@@ -164,7 +131,6 @@ export function ListFilters() {
             isLoading={loading}
             labelledBy="Select"
             onChange={handleCountriesSelect}
-            disableSearch
             hasSelectAll={false}
           />
         </Box>

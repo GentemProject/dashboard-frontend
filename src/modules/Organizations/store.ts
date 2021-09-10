@@ -62,5 +62,5 @@ export const useFiltersStore = create<Store>(set => ({
   setHasDonationsBank: (state: boolean) => set({ hasDonationBank: state }),
 
   hasDonationProducts: false,
-  setHasDonationsProducts: (state: boolean) => set({ hasDonationBank: state }),
+  setHasDonationsProducts: (state: boolean) => set({ hasDonationProducts: state }),
 }));
