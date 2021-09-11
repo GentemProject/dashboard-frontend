@@ -1,8 +1,19 @@
 // import { useMutation } from '@apollo/client';
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import {
+  DeleteIcon,
+  EditIcon,
+  HamburgerIcon,
+  SpinnerIcon,
+  ViewIcon,
+  ViewOffIcon,
+} from '@chakra-ui/icons';
 import {
   Avatar,
   IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Popover,
   // PopoverArrow,
   PopoverBody,
@@ -12,13 +23,15 @@ import {
   Tag,
   Td,
   Tr,
-  useDisclosure,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 // import { client } from 'api';
 import { format } from 'date-fns';
 
 import { Organization } from '../types';
+import { useMutation } from '@apollo/client';
+import { UPDATE_ORGANIZATION } from '../graphql';
+import { client } from 'api';
 
 // import { DELETE_USER } from '../graphql';
 // import { User } from '../types';
@@ -28,9 +41,8 @@ interface Props {
   organization: Organization;
 }
 export function ListItem({ organization }: Props) {
-  const { onOpen } = useDisclosure();
-
-  // const [deleteUser, { loading }] = useMutation(DELETE_USER);
+  const history = useHistory();
+  const [updateOrganization, { loading }] = useMutation(UPDATE_ORGANIZATION);
 
   const handleDelete = async () => {
     try {
@@ -41,6 +53,18 @@ export function ListItem({ organization }: Props) {
       //   include: ['getUsers'],
       // });
     } catch {
+      console.log('error');
+    }
+  };
+
+  const handleIsPublished = async (isPublished: boolean) => {
+    try {
+      const variables = { id: organization.id, input: { isPublished } };
+      await updateOrganization({ variables });
+      await client.refetchQueries({
+        include: ['getOrganizations'],
+      });
+    } catch (error) {
       console.log('error');
     }
   };
@@ -84,24 +108,38 @@ export function ListItem({ organization }: Props) {
       </Td>
       <Td>{format(new Date(organization.updatedAt), 'hh:mm:ss dd/MM/yyyy')}</Td>
       <Td>{format(new Date(organization.createdAt), 'hh:mm:ss dd/MM/yyyy')}</Td>
-      <Td>
-        {/* <ModalUpdateCause isOpen={isOpen} onClose={onClose} cause={cause} /> */}
-        <IconButton
-          size="xs"
-          variant="outline"
-          aria-label="Edit"
-          icon={<EditIcon />}
-          mr="2"
-          onClick={onOpen}
-        />
-        <IconButton
-          size="xs"
-          variant="outline"
-          aria-label="Delete"
-          icon={<DeleteIcon />}
-          // isLoading={loading}
-          onClick={handleDelete}
-        />
+      <Td display="flex" justifyContent="flex-end">
+        <Menu>
+          <MenuButton as={IconButton} size="xs">
+            {loading ? <SpinnerIcon /> : <HamburgerIcon />}
+          </MenuButton>
+          <MenuList>
+            {organization.isPublished ? (
+              <MenuItem icon={<ViewOffIcon />} onClick={() => handleIsPublished(false)}>
+                Disable
+              </MenuItem>
+            ) : (
+              <MenuItem icon={<ViewIcon />} onClick={() => handleIsPublished(true)}>
+                Enable
+              </MenuItem>
+            )}
+            <MenuItem
+              icon={<EditIcon />}
+              onClick={() => window.open(`/organizations/${organization.slug}`, '_blank')}
+            >
+              Preview
+            </MenuItem>
+            <MenuItem
+              icon={<EditIcon />}
+              onClick={() => history.push(`/organizations/${organization.slug}/edit`)}
+            >
+              Edit
+            </MenuItem>
+            <MenuItem icon={<DeleteIcon />} onClick={handleDelete}>
+              Delete
+            </MenuItem>
+          </MenuList>
+        </Menu>
       </Td>
     </Tr>
   );

@@ -97,7 +97,7 @@ export const GET_ORGANIZATION = gql`
 export const UPDATE_ORGANIZATION = gql`
   ${ORGANIZATION_FRAGMENT}
   mutation updateOrganization($id: String!, $input: OrganizationInput) {
-    cause: updateOrganization(id: $id, input: $input) {
+    organization: updateOrganization(id: $id, input: $input) {
       ...OrganizationFragment
     }
   }
