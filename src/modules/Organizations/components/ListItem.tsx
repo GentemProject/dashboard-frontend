@@ -1,24 +1,17 @@
-// import { useMutation } from '@apollo/client';
-import {
-  DeleteIcon,
-  EditIcon,
-  HamburgerIcon,
-  SpinnerIcon,
-  ViewIcon,
-  ViewOffIcon,
-} from '@chakra-ui/icons';
+import { DeleteIcon, EditIcon, HamburgerIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {
   Avatar,
+  Box,
   IconButton,
   Menu,
   MenuButton,
+  MenuDivider,
+  MenuGroup,
   MenuItem,
   MenuList,
   Popover,
-  // PopoverArrow,
   PopoverBody,
   PopoverContent,
-  // PopoverHeader,
   PopoverTrigger,
   Tag,
   Td,
@@ -90,13 +83,16 @@ export function ListItem({ organization }: Props) {
         </Popover>
         <Link to={`/organizations/${organization.slug}`}>{organization.name}</Link>
       </Td>
-      <Td>{organization.locations.length > 0 && organization.locations[0].city}</Td>
       <Td>
         {organization.locations.length > 0 &&
           organization.locations.map(location => (
-            <Tag size="sm" key={location.countryCode} mr="2">
-              {location.country}
-            </Tag>
+            <Box key={location.address}>
+              {location.address && location.address + ', '}
+              {location.city && location.city + ', '}
+              {location.state && location.state + ', '}
+              {location.country && location.country + ', '}
+              {location.countryCode}
+            </Box>
           ))}
       </Td>
       <Td>
@@ -105,41 +101,57 @@ export function ListItem({ organization }: Props) {
             {cause.name}
           </Tag>
         ))}
+        {organization.causes.length === 0 && 'No causes'}
       </Td>
-      <Td>{format(new Date(organization.updatedAt), 'hh:mm:ss dd/MM/yyyy')}</Td>
+      <Td>
+        {organization.isPublished ? (
+          <Tag size="sm" colorScheme="green" borderRadius="full" variant="solid">
+            Published
+          </Tag>
+        ) : (
+          <Tag size="sm" colorScheme="red" borderRadius="full" variant="solid">
+            Not published
+          </Tag>
+        )}
+      </Td>
       <Td>{format(new Date(organization.createdAt), 'hh:mm:ss dd/MM/yyyy')}</Td>
-      <Td display="flex" justifyContent="flex-end">
-        <Menu>
-          <MenuButton as={IconButton} size="xs">
-            {loading ? <SpinnerIcon /> : <HamburgerIcon />}
-          </MenuButton>
-          <MenuList>
-            {organization.isPublished ? (
-              <MenuItem icon={<ViewOffIcon />} onClick={() => handleIsPublished(false)}>
-                Disable
-              </MenuItem>
-            ) : (
-              <MenuItem icon={<ViewIcon />} onClick={() => handleIsPublished(true)}>
-                Enable
-              </MenuItem>
-            )}
-            <MenuItem
-              icon={<EditIcon />}
-              onClick={() => window.open(`/organizations/${organization.slug}`, '_blank')}
-            >
-              Preview
-            </MenuItem>
-            <MenuItem
-              icon={<EditIcon />}
-              onClick={() => history.push(`/organizations/${organization.slug}/edit`)}
-            >
-              Edit
-            </MenuItem>
-            <MenuItem icon={<DeleteIcon />} onClick={handleDelete}>
-              Delete
-            </MenuItem>
-          </MenuList>
-        </Menu>
+      <Td>
+        <Box display="flex" justifyContent="flex-end">
+          <Menu>
+            <MenuButton as={IconButton} size="xs" isLoading={loading}>
+              <HamburgerIcon />
+            </MenuButton>
+            <MenuList>
+              <MenuGroup title="Menu">
+                {organization.isPublished ? (
+                  <MenuItem icon={<ViewOffIcon />} onClick={() => handleIsPublished(false)}>
+                    Disable
+                  </MenuItem>
+                ) : (
+                  <MenuItem icon={<ViewIcon />} onClick={() => handleIsPublished(true)}>
+                    Enable
+                  </MenuItem>
+                )}
+                <MenuItem
+                  icon={<EditIcon />}
+                  onClick={() => window.open(`/organizations/${organization.slug}`, '_blank')}
+                >
+                  Preview
+                </MenuItem>
+                <MenuItem
+                  icon={<EditIcon />}
+                  onClick={() => history.push(`/organizations/${organization.slug}/edit`)}
+                >
+                  Edit
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem icon={<DeleteIcon />} onClick={handleDelete}>
+                  Delete
+                </MenuItem>
+              </MenuGroup>
+            </MenuList>
+          </Menu>
+        </Box>
       </Td>
     </Tr>
   );

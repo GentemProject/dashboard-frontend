@@ -103,6 +103,15 @@ export const UPDATE_ORGANIZATION = gql`
   }
 `;
 
+export const CREATE_ORGANIZATION = gql`
+  ${ORGANIZATION_FRAGMENT}
+  mutation createOrganization($input: OrganizationInput) {
+    organization: createOrganization(input: $input) {
+      ...OrganizationFragment
+    }
+  }
+`;
+
 export const GET_ORGANIZATIONS_FILTERS_DATA = gql`
   ${CAUSE_FRAGMENT}
   query getOrganizationsFilterData($sortBy: String, $orderBy: String) {

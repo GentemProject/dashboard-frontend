@@ -19,13 +19,20 @@ interface Data {
 function ListHeading() {
   return (
     <Tr>
-      <Th>Name</Th>
-      <Th>City</Th>
-      <Th>Country</Th>
+      <Th maxW="20%" w="20%">
+        Name
+      </Th>
+      <Th maxW="20%" w="20%">
+        Location
+      </Th>
       <Th>Causes</Th>
-      <Th>Updated at</Th>
-      <Th>Created at</Th>
-      <Th>Actions</Th>
+      <Th maxW="9%" w="9%">
+        Is published
+      </Th>
+      <Th maxW="11%" w="11%">
+        Created at
+      </Th>
+      <Th maxW="3%" w="3%"></Th>
     </Tr>
   );
 }
@@ -85,7 +92,7 @@ export function List() {
             {Array.from(Array(20).keys()).map(item => (
               <Tr key={item}>
                 <Th>
-                  <Skeleton h="19px" />
+                  <Skeleton h="15px" />
                 </Th>
               </Tr>
             ))}
